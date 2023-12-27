@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 688300847199149692}
   - component: {fileID: 688300847199149693}
   - component: {fileID: 688300847199149694}
-  m_Layer: 0
+  - component: {fileID: -1924384716293546659}
+  m_Layer: 6
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -111,3 +112,19 @@ MonoBehaviour:
   - {fileID: 4653479386368945005, guid: 9af5ab0ad751db8469ffecd97af5e002, type: 3}
   - {fileID: 1978688009679456679, guid: eabf06e476727724e8936f1169669c08, type: 3}
   moveSpeed: 1
+--- !u!58 &-1924384716293546659
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 688300847199149695}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
