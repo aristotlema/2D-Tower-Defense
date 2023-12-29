@@ -11,15 +11,26 @@ public class Tower : MonoBehaviour
     protected RaycastHit2D isEnemyDetected;
     protected GameObject currentTarget;
 
+    [Header("Tower Damage")]
+    [SerializeField] protected float attackFrequency = 1f;
+    [SerializeField] protected int attackDamage = 25;
+    protected float attackTimer = 0;
+    
+
+    protected Animator anim;
+    protected bool isShooting = false;
+
     void Start()
     {
-        
+        anim = GetComponentInChildren<Animator>();
+
     }
 
     void Update()
     {
         EnemyInRangeCheck();
         TargetEnemy();
+        AnimationController();
     }
 
     private void EnemyInRangeCheck()
@@ -31,24 +42,46 @@ public class Tower : MonoBehaviour
     {
         if (isEnemyDetected)
         {
+            // if there is not already a target, but one is found, set as current target
             if (!currentTarget)
             {
                 currentTarget = isEnemyDetected.transform.gameObject;
+                
             }
+            //attack current target
             else if (currentTarget)
             {
-                Debug.Log("Got a live one" + currentTarget.name);
+                DamageEnemy();
 
-                transform.right = currentTarget.transform.position - transform.position;
+                transform.up = currentTarget.transform.position - transform.position;
 
+                //clear current target once target is no longer in range
                 if (Vector3.Distance(transform.position, currentTarget.transform.position) > attackRange)
                 {
+                    
                     currentTarget = null;
                 }
             }
         }
     }
 
+    protected void DamageEnemy()
+    {
+        
+
+        attackTimer -= Time.deltaTime;
+        if (attackTimer <= 0)
+        {
+            anim.SetTrigger("Shoot");
+            currentTarget.GetComponent<Enemy>().DealDamageToTower(attackDamage);
+            attackTimer = attackFrequency;
+        }
+    }
+
+    protected void AnimationController()
+    {
+        
+    }
     protected void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
