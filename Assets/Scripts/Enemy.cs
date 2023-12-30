@@ -14,12 +14,21 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         Movement();
+        CheckIfTowerIsDeadAndKill();
+    }
+
+    protected void CheckIfTowerIsDeadAndKill()
+    {
+        if(healthPool <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     public void DealDamageToTower(int damageTaken)
     {
         healthPool -= damageTaken;
-        Debug.Log("I took 25 damage!");
+        Debug.Log($"I have {healthPool} health");
     }
 
     private void Movement()

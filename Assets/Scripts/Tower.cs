@@ -15,7 +15,10 @@ public class Tower : MonoBehaviour
     [SerializeField] protected float attackFrequency = 1f;
     [SerializeField] protected int attackDamage = 25;
     protected float attackTimer = 0;
-    
+
+    [SerializeField] protected AudioClip[] gunSoundArr;
+    protected AudioSource gunAudioSource; 
+
 
     protected Animator anim;
     protected bool isShooting = false;
@@ -23,14 +26,13 @@ public class Tower : MonoBehaviour
     void Start()
     {
         anim = GetComponentInChildren<Animator>();
-
+        gunAudioSource = GetComponent<AudioSource>();
     }
 
     void Update()
     {
         EnemyInRangeCheck();
         TargetEnemy();
-        AnimationController();
     }
 
     private void EnemyInRangeCheck()
@@ -52,35 +54,37 @@ public class Tower : MonoBehaviour
             else if (currentTarget)
             {
                 DamageEnemy();
-
+                //track enemyy position
                 transform.up = currentTarget.transform.position - transform.position;
-
-                //clear current target once target is no longer in range
-                if (Vector3.Distance(transform.position, currentTarget.transform.position) > attackRange)
-                {
-                    
-                    currentTarget = null;
-                }
+                ClearTargetIfNoLongerInRange();
             }
+        }
+    }
+
+    private void ClearTargetIfNoLongerInRange()
+    {
+        if (Vector3.Distance(transform.position, currentTarget.transform.position) > attackRange)
+        {
+            currentTarget = null;
         }
     }
 
     protected void DamageEnemy()
     {
-        
-
         attackTimer -= Time.deltaTime;
         if (attackTimer <= 0)
         {
             anim.SetTrigger("Shoot");
+            PlayGunAudio();
             currentTarget.GetComponent<Enemy>().DealDamageToTower(attackDamage);
             attackTimer = attackFrequency;
         }
     }
 
-    protected void AnimationController()
+    protected void PlayGunAudio()
     {
-        
+        gunAudioSource.clip = gunSoundArr[Random.Range(0, gunSoundArr.Length - 1)];
+        gunAudioSource.Play();
     }
     protected void OnDrawGizmosSelected()
     {
