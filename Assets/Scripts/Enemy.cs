@@ -17,18 +17,16 @@ public class Enemy : MonoBehaviour
         CheckIfTowerIsDeadAndKill();
     }
 
-    protected void CheckIfTowerIsDeadAndKill()
-    {
-        if(healthPool <= 0)
-        {
-            Destroy(gameObject);
-        }
-    }
-
     public void DealDamageToTower(int damageTaken)
     {
         healthPool -= damageTaken;
-        Debug.Log($"I have {healthPool} health");
+        Debug.Log(gameObject.GetInstanceID().ToString() + "Health: " + healthPool);
+    }
+
+    protected void CheckIfTowerIsDeadAndKill()
+    {
+        if (healthPool <= 0)
+            Destroy(gameObject);
     }
 
     private void Movement()

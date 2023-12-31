@@ -8,8 +8,10 @@ public class Tower : MonoBehaviour
 
     [SerializeField] protected LayerMask whatIsEnemy;
 
+    [SerializeField] private float rangeCheckFrequency = 0.25f;
+    private float rangeCheckTimer = 0;
     protected RaycastHit2D isEnemyDetected;
-    protected GameObject currentTarget;
+    protected GameObject currentTarget = null;
 
     [Header("Tower Damage")]
     [SerializeField] protected float attackFrequency = 1f;
@@ -22,6 +24,8 @@ public class Tower : MonoBehaviour
 
     protected Animator anim;
     protected bool isShooting = false;
+
+    
 
     void Start()
     {
@@ -37,25 +41,31 @@ public class Tower : MonoBehaviour
 
     private void EnemyInRangeCheck()
     {
-        isEnemyDetected = Physics2D.CircleCast(transform.position, attackRange, Vector2.zero, whatIsEnemy);
+        rangeCheckTimer -= Time.deltaTime;
+        if (rangeCheckTimer < 0)
+        {
+            isEnemyDetected = Physics2D.CircleCast(transform.position, attackRange, Vector2.zero, whatIsEnemy);
+            rangeCheckTimer = rangeCheckFrequency;
+        }
     }
 
     private void TargetEnemy()
     {
         if (isEnemyDetected)
         {
+            Debug.Log($"{gameObject.GetInstanceID().ToString()} Detected enemy");
+
             // if there is not already a target, but one is found, set as current target
             if (!currentTarget)
             {
                 currentTarget = isEnemyDetected.transform.gameObject;
-                
             }
             //attack current target
             else if (currentTarget)
             {
-                DamageEnemy();
                 //track enemyy position
                 transform.up = currentTarget.transform.position - transform.position;
+                DamageEnemy();
                 ClearTargetIfNoLongerInRange();
             }
         }
@@ -71,17 +81,19 @@ public class Tower : MonoBehaviour
 
     protected void DamageEnemy()
     {
+        Enemy tempTarget = currentTarget.GetComponent<Enemy>();
+
         attackTimer -= Time.deltaTime;
         if (attackTimer <= 0)
         {
             anim.SetTrigger("Shoot");
-            PlayGunAudio();
-            currentTarget.GetComponent<Enemy>().DealDamageToTower(attackDamage);
+            PlayRandomGunAudio();
+            tempTarget.DealDamageToTower(attackDamage);
             attackTimer = attackFrequency;
         }
     }
 
-    protected void PlayGunAudio()
+    protected void PlayRandomGunAudio()
     {
         gunAudioSource.clip = gunSoundArr[Random.Range(0, gunSoundArr.Length - 1)];
         gunAudioSource.Play();
