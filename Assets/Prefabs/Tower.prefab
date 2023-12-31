@@ -206,9 +206,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackRange: 4
+  towerPrefab: {fileID: 6469422801379845496}
   whatIsEnemy:
     serializedVersion: 2
     m_Bits: 64
+  rangeCheckFrequency: 0.25
   attackFrequency: 1
   attackDamage: 25
   gunSoundArr:
