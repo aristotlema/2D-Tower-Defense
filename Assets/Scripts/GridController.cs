@@ -13,6 +13,7 @@ public class GridController : MonoBehaviour
 
     private Vector3Int previousMousePosition = new Vector3Int();
     private Vector3Int currentMousePosition;
+    private Vector3Int currentSelectedTile;
 
     [Header("Tilemaps/Tiles")]
     [SerializeField] private Tilemap interactiveMap = null;
@@ -42,6 +43,8 @@ public class GridController : MonoBehaviour
             interactiveMap.SetTile(currentMousePosition, hoverTileSprite);
             previousMousePosition = currentMousePosition;
         }
+
+        BuildHandler();
     }
 
     private Vector3Int GetMousePosition()
@@ -67,8 +70,12 @@ public class GridController : MonoBehaviour
 
     private void BuildHandler()
     {
+        buildMenuWindow.buildBaseButton.onClick.AddListener(BuildTowerOnTile);
+
         if (Input.GetKeyUp(KeyCode.Mouse0))
         {
+            currentSelectedTile = GetMousePosition();
+
             buildMenuWindow.gameObject.SetActive(true);
             if (CheckIfTowerBaseIsBuilt())
             {
@@ -78,6 +85,8 @@ public class GridController : MonoBehaviour
             else if (!CheckIfTowerBaseIsBuilt() && !CheckIfFoliagePresent() && !CheckIfRoadPresent())
             {
                 buildMenuWindow.SetBodyText("You must build a tower base first");
+                buildMenuWindow.SetBuildButtonText("Build base");
+
             }
             else if (CheckIfFoliagePresent())
             {
@@ -88,5 +97,10 @@ public class GridController : MonoBehaviour
                 buildMenuWindow.SetBodyText("You can't build on the road");
             }
         }
+    }
+
+    private void BuildTowerOnTile()
+    {
+        TowerBasesMap.SetTile(currentSelectedTile, buildingController.BuildTowerBase());
     }
 }
