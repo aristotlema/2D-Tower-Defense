@@ -9,7 +9,7 @@ public class Tower : MonoBehaviour
     [SerializeField] protected LayerMask whatIsEnemy;
 
     [SerializeField] private float rangeCheckFrequency = 0.25f;
-    private float rangeCheckTimer = 0;
+    private float rangeCheckTimer = 1;
     protected RaycastHit2D isEnemyDetected;
     protected GameObject currentTarget = null;
 
