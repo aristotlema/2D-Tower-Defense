@@ -9,9 +9,6 @@ public class EnemySpawner : MonoBehaviour
     private float spawnTimer = 0;
     [SerializeField] private int spawnFrequency = 5;
 
-    void Start()
-    {
-    }
     void Update()
     {
         SpawnTimer();

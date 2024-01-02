@@ -18,6 +18,7 @@ public class GridController : MonoBehaviour
     [SerializeField] private Tile hoverTileSprite;
 
     private BuildingController buildingController;
+
     void Start()
     {
         grid = gameObject.GetComponent<Grid>();
@@ -37,11 +38,7 @@ public class GridController : MonoBehaviour
 
         if(Input.GetKeyUp(KeyCode.Mouse0))
         {
-            Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector3Int tileMapPositon = grid.WorldToCell(mouseWorldPosition);
-            Debug.Log(grid.CellToWorld(tileMapPositon));
-
-            buildingController.BuildTower(grid.CellToWorld(tileMapPositon));
+            buildingController.BuildTower(GetMousePosition());
         }
     }
 
