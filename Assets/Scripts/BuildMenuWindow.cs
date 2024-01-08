@@ -22,6 +22,4 @@ public class BuildMenuWindow : MonoBehaviour
     {
         buildBaseButtonText.text = message;
     }
-
 }
-
