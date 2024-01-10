@@ -20,7 +20,7 @@ public class Enemy : MonoBehaviour
     public void DealDamageToTower(int damageTaken)
     {
         healthPool -= damageTaken;
-        Debug.Log(gameObject.GetInstanceID().ToString() + "Health: " + healthPool);
+        // Debug.Log(gameObject.GetInstanceID().ToString() + "Health: " + healthPool);
     }
 
     protected void CheckIfTowerIsDeadAndKill()

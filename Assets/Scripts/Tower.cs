@@ -53,7 +53,7 @@ public class Tower : MonoBehaviour
     {
         if (isEnemyDetected)
         {
-            Debug.Log($"{gameObject.GetInstanceID().ToString()} Detected enemy");
+            //Debug.Log($"{gameObject.GetInstanceID().ToString()} Detected enemy");
 
             // if there is not already a target, but one is found, set as current target
             if (!currentTarget)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class UI_View : CustomUIComponent
 {
     [SerializeField] private UI_ViewSO viewData;

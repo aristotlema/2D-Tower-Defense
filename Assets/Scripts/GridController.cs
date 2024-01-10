@@ -1,14 +1,28 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.Events;
 
 //useful link
 //https://lukashermann.dev/writing/unity-highlight-tile-in-tilemap-on-mousever/
 
+public enum TileStatus
+{
+    Upgradeable,
+    TowerBase,
+    Buildable,
+    Clearable,
+    NotBuildable
+}
 
 public class GridController : MonoBehaviour
 {
+    [SerializeField] private UnityEvent openBuildMenu;
+
+    public static event Action<Vector3Int, TileStatus> OnTileSelect;
+
     private Grid grid;
 
     private Vector3Int previousMousePosition = new Vector3Int();
@@ -22,7 +36,7 @@ public class GridController : MonoBehaviour
     [SerializeField] private Tilemap RoadTileMap = null;
     [SerializeField] private Tile hoverTileSprite;
 
-    [SerializeField] private BuildMenuWindow buildMenuWindow;
+    [SerializeField] private UI_BuildMenu buildMenuWindow;
 
     private BuildingController buildingController;
 
@@ -53,50 +67,55 @@ public class GridController : MonoBehaviour
         return grid.WorldToCell(mouseWorldPosition);
     }
 
-    private bool CheckIfTowerBaseIsBuilt()
-    {
-        return TowerBasesMap.HasTile(GetMousePosition());
-    }
-
-    private bool CheckIfFoliagePresent()
-    {
-        return FoliageTileMap.HasTile(GetMousePosition());
-    }
-
-    private bool CheckIfRoadPresent()
-    {
-        return RoadTileMap.HasTile(GetMousePosition());
-    }
-
     private void BuildHandler()
     {
-        buildMenuWindow.buildBaseButton.onClick.AddListener(BuildTowerOnTile);
+        //buildMenuWindow.buildBaseButton.onClick.AddListener(BuildTowerOnTile);
 
         if (Input.GetKeyUp(KeyCode.Mouse0))
         {
-            currentSelectedTile = GetMousePosition();
+            currentSelectedTile = GetMousePosition();   
 
-            buildMenuWindow.gameObject.SetActive(true);
-            if (CheckIfTowerBaseIsBuilt())
-            {
-                buildMenuWindow.SetBodyText("Tower Buildable");
-                buildingController.BuildTower(GetMousePosition());
-            }
-            else if (!CheckIfTowerBaseIsBuilt() && !CheckIfFoliagePresent() && !CheckIfRoadPresent())
-            {
-                buildMenuWindow.SetBodyText("You must build a tower base first");
-                buildMenuWindow.SetBuildButtonText("Build base");
+            OnTileSelect?.Invoke(currentSelectedTile, CheckTileStatus(currentSelectedTile));
 
-            }
-            else if (CheckIfFoliagePresent())
-            {
-                buildMenuWindow.SetBodyText("Clear the tree");
-            }
-            else if (CheckIfRoadPresent())
-            {
-                buildMenuWindow.SetBodyText("You can't build on the road");
-            }
+            // Migrate to BuildMenu Controller
+
+            //buildMenuWindow.gameObject.SetActive(true);
+            //if (CheckIfTowerBaseIsBuilt())
+            //{
+            //    buildMenuWindow.SetBodyText("Tower Buildable");
+            //    buildingController.BuildTower(GetMousePosition());
+            //}
+            //else if (!CheckIfTowerBaseIsBuilt() && !CheckIfFoliagePresent() && !CheckIfRoadPresent())
+            //{
+            //    buildMenuWindow.SetBodyText("You must build a tower base first");
+            //    buildMenuWindow.SetBuildButtonText("Build base");
+
+            //}
+            //else if (CheckIfFoliagePresent())
+            //{
+            //    buildMenuWindow.SetBodyText("Clear the tree");
+            //}
+            //else if (CheckIfRoadPresent())
+            //{
+            //    buildMenuWindow.SetBodyText("You can't build on the road");
+            //}
         }
+    }
+
+    private TileStatus CheckTileStatus(Vector3Int tile)
+    {
+        //Add for if tower fully built/ upgradeable
+        if (TowerBasesMap.HasTile(tile))
+            return TileStatus.TowerBase;
+        else if (FoliageTileMap.HasTile(tile))
+            return TileStatus.Clearable;
+        else if (RoadTileMap.HasTile(tile))
+            return TileStatus.NotBuildable;
+        else if (!TowerBasesMap.HasTile(tile) && !FoliageTileMap.HasTile(tile) && !RoadTileMap.HasTile(tile))
+            return TileStatus.Buildable;
+        else
+            Debug.LogError("issue with checking title status on grid controller");
+            return TileStatus.NotBuildable;
     }
 
     private void BuildTowerOnTile()

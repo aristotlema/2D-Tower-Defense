@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class BuildMenuWindow : MonoBehaviour
+public class UI_BuildMenu : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI windowTitleText;
     [SerializeField] private TextMeshProUGUI windowBodyText;
@@ -12,6 +12,7 @@ public class BuildMenuWindow : MonoBehaviour
     [Header("Buttons")]
     [SerializeField] private TextMeshProUGUI buildBaseButtonText;
     [SerializeField] public Button buildBaseButton;
+
 
     public void SetBodyText(string message)
     {
