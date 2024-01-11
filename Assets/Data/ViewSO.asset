@@ -12,3 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 023378c167b7c1a499e49301eaf01d87, type: 3}
   m_Name: ViewSO
   m_EditorClassIdentifier: 
+  padding:
+    m_Left: 25
+    m_Right: 25
+    m_Top: 25
+    m_Bottom: 25
+  spacing: 25

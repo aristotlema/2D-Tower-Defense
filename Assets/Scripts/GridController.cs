@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 //useful link
 //https://lukashermann.dev/writing/unity-highlight-tile-in-tilemap-on-mousever/
@@ -51,14 +52,25 @@ public class GridController : MonoBehaviour
     void Update()
     {
         currentMousePosition = GetMousePosition();
-        if(!currentMousePosition.Equals(previousMousePosition))
+        TileHighLightHandler();
+        BuildHandler();
+    }
+
+    private void TileHighLightHandler()
+    {
+        if (EventSystem.current.IsPointerOverGameObject())
         {
             interactiveMap.SetTile(previousMousePosition, null);
-            interactiveMap.SetTile(currentMousePosition, hoverTileSprite);
-            previousMousePosition = currentMousePosition;
         }
-
-        BuildHandler();
+        else
+        {
+            if (!currentMousePosition.Equals(previousMousePosition))
+            {
+                interactiveMap.SetTile(previousMousePosition, null);
+                interactiveMap.SetTile(currentMousePosition, hoverTileSprite);
+                previousMousePosition = currentMousePosition;
+            }
+        }
     }
 
     private Vector3Int GetMousePosition()
@@ -69,9 +81,7 @@ public class GridController : MonoBehaviour
 
     private void BuildHandler()
     {
-        //buildMenuWindow.buildBaseButton.onClick.AddListener(BuildTowerOnTile);
-
-        if (Input.GetKeyUp(KeyCode.Mouse0))
+        if (Input.GetKeyUp(KeyCode.Mouse0) && !EventSystem.current.IsPointerOverGameObject())
         {
             currentSelectedTile = GetMousePosition();   
 
@@ -111,7 +121,7 @@ public class GridController : MonoBehaviour
             return TileStatus.Clearable;
         else if (RoadTileMap.HasTile(tile))
             return TileStatus.NotBuildable;
-        else if (!TowerBasesMap.HasTile(tile) && !FoliageTileMap.HasTile(tile) && !RoadTileMap.HasTile(tile))
+        else if (interactiveMap.HasTile(tile) && !TowerBasesMap.HasTile(tile) && !FoliageTileMap.HasTile(tile) && !RoadTileMap.HasTile(tile))
             return TileStatus.Buildable;
         else
             Debug.LogError("issue with checking title status on grid controller");

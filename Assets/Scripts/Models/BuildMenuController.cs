@@ -7,6 +7,14 @@ public class BuildMenuController : MonoBehaviour
 {
     [SerializeField] private GameObject buildMenu;
 
+    private Vector3Int _currentSelectedTile;
+    private TileStatus _currentSelectedTileStatus;
+    private string _buildDisplayText;
+
+    // Build a tower base
+    // Build a turret
+    // clear space
+
     private void OnEnable()
     {
         GridController.OnTileSelect += OpenBuildMenu;
@@ -16,9 +24,10 @@ public class BuildMenuController : MonoBehaviour
     {
         GridController.OnTileSelect -= OpenBuildMenu;
     }
-
     private void OpenBuildMenu(Vector3Int tile, TileStatus tileStatus)
     {
+        _currentSelectedTile = tile;
+        _currentSelectedTileStatus = tileStatus;
 
         Debug.Log("Opening Build Menu");
         Debug.Log("Tile: " + tile);
@@ -26,4 +35,6 @@ public class BuildMenuController : MonoBehaviour
 
         buildMenu.SetActive(true);
     }
+
+    
 }
