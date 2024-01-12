@@ -1,9 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using System;
+
 
 public class UI_BuildMenuViewModel : MonoBehaviour
 {
@@ -14,6 +15,10 @@ public class UI_BuildMenuViewModel : MonoBehaviour
     [SerializeField] private Button _buildTower;
     [SerializeField] private Button _clearTile;
 
+    private void Start()
+    {
+        Setup();
+    }
     private void OnEnable()
     {
         GridController.OnTileSelect += UpdateBuildMenuTitle;
@@ -27,6 +32,25 @@ public class UI_BuildMenuViewModel : MonoBehaviour
     {
         _title.text = tile.ToString();
         _body.text = BuildDisplayText(status);
+        DisplayButtons(status);
+    }
+
+    private void DisplayButtons(TileStatus status)
+    {
+        //Horrible code
+        DisableAllButtons();
+        if (status == TileStatus.Buildable)
+        {
+            _buildTower.gameObject.SetActive(true);
+        }
+        if (status == TileStatus.TowerBase)
+        {
+            _buildTurret.gameObject.SetActive(true);
+        }
+        if (status == TileStatus.Clearable)
+        {
+            _clearTile.gameObject.SetActive(true);
+        }
     }
 
     private string BuildDisplayText(TileStatus status)
@@ -44,5 +68,17 @@ public class UI_BuildMenuViewModel : MonoBehaviour
             default:
                 return "Not buildable";
         }
+    }
+
+    private void Setup()
+    {
+        DisableAllButtons();
+    }
+
+    private void DisableAllButtons()
+    {
+        _buildTurret.gameObject.SetActive(false);
+        _buildTower.gameObject.SetActive(false);
+        _clearTile.gameObject.SetActive(false);
     }
 }
