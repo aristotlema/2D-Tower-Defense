@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 using TMPro;
 using System;
 
@@ -9,6 +9,10 @@ public class UI_BuildMenuViewModel : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _title;
     [SerializeField] private TextMeshProUGUI _body;
+
+    [SerializeField] private Button _buildTurret;
+    [SerializeField] private Button _buildTower;
+    [SerializeField] private Button _clearTile;
 
     private void OnEnable()
     {

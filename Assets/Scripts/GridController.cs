@@ -37,7 +37,7 @@ public class GridController : MonoBehaviour
     [SerializeField] private Tilemap RoadTileMap = null;
     [SerializeField] private Tile hoverTileSprite;
 
-    [SerializeField] private UI_BuildMenu buildMenuWindow;
+    //[SerializeField] private UI_BuildMenu buildMenuWindow;
 
     private BuildingController buildingController;
 
@@ -86,29 +86,6 @@ public class GridController : MonoBehaviour
             currentSelectedTile = GetMousePosition();   
 
             OnTileSelect?.Invoke(currentSelectedTile, CheckTileStatus(currentSelectedTile));
-
-            // Migrate to BuildMenu Controller
-
-            //buildMenuWindow.gameObject.SetActive(true);
-            //if (CheckIfTowerBaseIsBuilt())
-            //{
-            //    buildMenuWindow.SetBodyText("Tower Buildable");
-            //    buildingController.BuildTower(GetMousePosition());
-            //}
-            //else if (!CheckIfTowerBaseIsBuilt() && !CheckIfFoliagePresent() && !CheckIfRoadPresent())
-            //{
-            //    buildMenuWindow.SetBodyText("You must build a tower base first");
-            //    buildMenuWindow.SetBuildButtonText("Build base");
-
-            //}
-            //else if (CheckIfFoliagePresent())
-            //{
-            //    buildMenuWindow.SetBodyText("Clear the tree");
-            //}
-            //else if (CheckIfRoadPresent())
-            //{
-            //    buildMenuWindow.SetBodyText("You can't build on the road");
-            //}
         }
     }
 
