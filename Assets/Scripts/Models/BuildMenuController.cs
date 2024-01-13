@@ -1,17 +1,20 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 
 public class BuildMenuController : MonoBehaviour
 {
+    [Header("View")]
     [SerializeField] private GameObject _UI_buildMenu;
 
-    private BuildMenuModel buildMenuModel;
+    private BuildMenuModel _buildMenuModel;
+
 
     private void Awake()
     {
-        buildMenuModel = new BuildMenuModel();
+        _buildMenuModel = new BuildMenuModel();
     }
     private void OnEnable()
     {
@@ -22,16 +25,14 @@ public class BuildMenuController : MonoBehaviour
     {
         GridController.OnTileSelect -= OpenBuildMenu;
     }
-    private void OpenBuildMenu(Vector3Int tile, TileStatus tileStatus)
+    private void OpenBuildMenu(CustomTile tile)
     {
-        buildMenuModel.UpdateCurrentSelectedTile(tile);
+        _buildMenuModel.UpdateCurrentSelectedTile(tile);
 
         Debug.Log("Opening Build Menu");
-        Debug.Log("Tile: " + tile);
-        Debug.Log("TileStatus" + tileStatus);
+        Debug.Log("Tile: " + tile.Coordiantes);
+        Debug.Log("TileStatus" + tile.TileStatus);
 
         _UI_buildMenu.SetActive(true);
     }
-
-    
 }

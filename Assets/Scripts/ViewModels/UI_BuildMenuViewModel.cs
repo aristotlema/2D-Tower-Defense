@@ -15,9 +15,11 @@ public class UI_BuildMenuViewModel : MonoBehaviour
     [SerializeField] private Button _buildTower;
     [SerializeField] private Button _clearTile;
 
+
     public static event Action<Vector3Int> OnBuildTurret;
     public static event Action<Vector3Int> OnBuildTower;
     public static event Action<Vector3Int> OnClearFoliage;
+
 
     private void Start()
     {
@@ -36,11 +38,11 @@ public class UI_BuildMenuViewModel : MonoBehaviour
     {
         DisableAllButtons();
     }
-    private void UpdateBuildMenuTitle(Vector3Int tile, TileStatus status)
+    private void UpdateBuildMenuTitle(CustomTile tile)
     {
-        _title.text = tile.ToString();
-        _body.text = BuildDisplayText(status);
-        DisplayButtons(tile, status);
+        _title.text = tile.Coordiantes.ToString();
+        _body.text = BuildDisplayText(tile.TileStatus);
+        DisplayButtons(tile.Coordiantes, tile.TileStatus);
     }
 
     private void DisplayButtons(Vector3Int tile, TileStatus status)

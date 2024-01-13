@@ -22,7 +22,7 @@ public class GridController : MonoBehaviour
 {
     [SerializeField] private UnityEvent openBuildMenu;
 
-    public static event Action<Vector3Int, TileStatus> OnTileSelect;
+    public static event Action<CustomTile> OnTileSelect;
 
     private Grid grid;
 
@@ -95,7 +95,7 @@ public class GridController : MonoBehaviour
         {
             currentSelectedTile = GetMousePosition();   
 
-            OnTileSelect?.Invoke(currentSelectedTile, CheckTileStatus(currentSelectedTile));
+            OnTileSelect?.Invoke(new CustomTile(currentSelectedTile, CheckTileStatus(currentSelectedTile)));
         }
     }
 

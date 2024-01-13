@@ -1,28 +1,25 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BuildMenuModel
 {
-    private Vector3Int _currentSelectedTile;
-    private TileStatus _currentSelectedTileStatus;
+    private Vector3Int _OLDcurrentSelectedTile;
+    private CustomTile _currentSelectedTile;
 
-    public BuildMenuModel() 
-    { 
-        
-    }
+    public CustomTile CurrentSelectedTile { get => _currentSelectedTile; set => _currentSelectedTile = value; }
 
-    public Vector3Int GetCurrentSelectedTile()
-    {
-        return _currentSelectedTile;
-    }
+    public event Action SelectedTileChanged;
 
-    public Vector3Int GetCurrentlSelectedTile()
-    {
-        return _currentSelectedTile;
-    }
-    public void UpdateCurrentSelectedTile(Vector3Int tile)
+    public void UpdateCurrentSelectedTile(CustomTile tile)
     {
         _currentSelectedTile = tile;
+        UpdateTile();
+    }
+
+    private void UpdateTile()
+    {
+        SelectedTileChanged?.Invoke();
     }
 }
