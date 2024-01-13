@@ -5,16 +5,14 @@ using UnityEngine;
 
 public class BuildMenuController : MonoBehaviour
 {
-    [SerializeField] private GameObject buildMenu;
+    [SerializeField] private GameObject _UI_buildMenu;
 
-    private Vector3Int _currentSelectedTile;
-    private TileStatus _currentSelectedTileStatus;
-    private string _buildDisplayText;
+    private BuildMenuModel buildMenuModel;
 
-    // Build a tower base
-    // Build a turret
-    // clear space
-
+    private void Awake()
+    {
+        buildMenuModel = new BuildMenuModel();
+    }
     private void OnEnable()
     {
         GridController.OnTileSelect += OpenBuildMenu;
@@ -26,14 +24,13 @@ public class BuildMenuController : MonoBehaviour
     }
     private void OpenBuildMenu(Vector3Int tile, TileStatus tileStatus)
     {
-        _currentSelectedTile = tile;
-        _currentSelectedTileStatus = tileStatus;
+        buildMenuModel.UpdateCurrentSelectedTile(tile);
 
         Debug.Log("Opening Build Menu");
         Debug.Log("Tile: " + tile);
         Debug.Log("TileStatus" + tileStatus);
 
-        buildMenu.SetActive(true);
+        _UI_buildMenu.SetActive(true);
     }
 
     

@@ -15,6 +15,10 @@ public class UI_BuildMenuViewModel : MonoBehaviour
     [SerializeField] private Button _buildTower;
     [SerializeField] private Button _clearTile;
 
+    public static event Action<Vector3Int> OnBuildTurret;
+    public static event Action<Vector3Int> OnBuildTower;
+    public static event Action<Vector3Int> OnClearFoliage;
+
     private void Start()
     {
         Setup();
@@ -28,28 +32,38 @@ public class UI_BuildMenuViewModel : MonoBehaviour
     {
         GridController.OnTileSelect -= UpdateBuildMenuTitle;
     }
+    private void Setup()
+    {
+        DisableAllButtons();
+    }
     private void UpdateBuildMenuTitle(Vector3Int tile, TileStatus status)
     {
         _title.text = tile.ToString();
         _body.text = BuildDisplayText(status);
-        DisplayButtons(status);
+        DisplayButtons(tile, status);
     }
 
-    private void DisplayButtons(TileStatus status)
+    private void DisplayButtons(Vector3Int tile, TileStatus status)
     {
         //Horrible code
         DisableAllButtons();
         if (status == TileStatus.Buildable)
         {
             _buildTower.gameObject.SetActive(true);
+            _buildTower.onClick.AddListener(() => OnBuildTower?.Invoke(tile));
+            Debug.Log("Build Tower Clicked" + tile);
         }
         if (status == TileStatus.TowerBase)
         {
             _buildTurret.gameObject.SetActive(true);
+            _buildTurret.onClick.AddListener(() => OnBuildTurret?.Invoke(tile));
+            Debug.Log("Build Turret Clicked" + tile);
         }
         if (status == TileStatus.Clearable)
         {
             _clearTile.gameObject.SetActive(true);
+            _clearTile.onClick.AddListener(() => OnClearFoliage?.Invoke(tile));
+            Debug.Log("Clear Foliage" + tile);
         }
     }
 
@@ -68,11 +82,6 @@ public class UI_BuildMenuViewModel : MonoBehaviour
             default:
                 return "Not buildable";
         }
-    }
-
-    private void Setup()
-    {
-        DisableAllButtons();
     }
 
     private void DisableAllButtons()

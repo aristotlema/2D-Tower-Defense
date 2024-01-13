@@ -41,6 +41,16 @@ public class GridController : MonoBehaviour
 
     private BuildingController buildingController;
 
+    private void OnEnable()
+    {
+        UI_BuildMenuViewModel.OnBuildTower += BuildTowerOnTile;
+    }
+    private void OnDisable()
+    {
+        UI_BuildMenuViewModel.OnBuildTower -= BuildTowerOnTile;
+    }
+
+
     void Start()
     {
         grid = gameObject.GetComponent<Grid>();
@@ -52,11 +62,11 @@ public class GridController : MonoBehaviour
     void Update()
     {
         currentMousePosition = GetMousePosition();
-        TileHighLightHandler();
-        BuildHandler();
+        TileHighlightHandler();
+        GridInputHandler();
     }
 
-    private void TileHighLightHandler()
+    private void TileHighlightHandler()
     {
         if (EventSystem.current.IsPointerOverGameObject())
         {
@@ -79,7 +89,7 @@ public class GridController : MonoBehaviour
         return grid.WorldToCell(mouseWorldPosition);
     }
 
-    private void BuildHandler()
+    private void GridInputHandler()
     {
         if (Input.GetKeyUp(KeyCode.Mouse0) && !EventSystem.current.IsPointerOverGameObject())
         {
@@ -105,8 +115,8 @@ public class GridController : MonoBehaviour
             return TileStatus.NotBuildable;
     }
 
-    private void BuildTowerOnTile()
+    private void BuildTowerOnTile(Vector3Int tile)
     {
-        TowerBasesMap.SetTile(currentSelectedTile, buildingController.BuildTowerBase());
+        TowerBasesMap.SetTile(tile, buildingController.BuildTowerBase());
     }
 }
