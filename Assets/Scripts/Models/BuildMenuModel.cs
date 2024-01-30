@@ -5,21 +5,18 @@ using UnityEngine;
 
 public class BuildMenuModel
 {
-    private Vector3Int _OLDcurrentSelectedTile;
-    private CustomTile _currentSelectedTile;
+    public GameTile CurrentSelectedTile { get; private set; }
 
-    public CustomTile CurrentSelectedTile { get => _currentSelectedTile; set => _currentSelectedTile = value; }
+    public static event Action<GameTile> SelectedTileChanged;
 
-    public event Action SelectedTileChanged;
-
-    public void UpdateCurrentSelectedTile(CustomTile tile)
+    public void UpdateCurrentSelectedTile(GameTile tile)
     {
-        _currentSelectedTile = tile;
-        UpdateTile();
+        CurrentSelectedTile = tile;
+        UpdateTile(tile);
     }
 
-    private void UpdateTile()
+    private void UpdateTile(GameTile tile)
     {
-        SelectedTileChanged?.Invoke();
+        SelectedTileChanged?.Invoke(tile);
     }
 }

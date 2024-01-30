@@ -16,9 +16,9 @@ public class UI_BuildMenuViewModel : MonoBehaviour
     [SerializeField] private Button _clearTile;
 
 
-    public static event Action<Vector3Int> OnBuildTurret;
-    public static event Action<Vector3Int> OnBuildTower;
-    public static event Action<Vector3Int> OnClearFoliage;
+    public static event Action<GameTile> OnBuildTurret;
+    public static event Action<GameTile> OnBuildTower;
+    public static event Action<GameTile> OnClearFoliage;
 
 
     private void Start()
@@ -27,41 +27,41 @@ public class UI_BuildMenuViewModel : MonoBehaviour
     }
     private void OnEnable()
     {
-        GridController.OnTileSelect += UpdateBuildMenuTitle;
+        BuildMenuModel.SelectedTileChanged += UpdateBuildMenuTitle;
     }
 
     private void OnDisable()
     {
-        GridController.OnTileSelect -= UpdateBuildMenuTitle;
+        BuildMenuModel.SelectedTileChanged -= UpdateBuildMenuTitle;
     }
     private void Setup()
     {
         DisableAllButtons();
     }
-    private void UpdateBuildMenuTitle(CustomTile tile)
+    private void UpdateBuildMenuTitle(GameTile tile)
     {
         _title.text = tile.Coordiantes.ToString();
         _body.text = BuildDisplayText(tile.TileStatus);
-        DisplayButtons(tile.Coordiantes, tile.TileStatus);
+        DisplayButtons(tile);
     }
 
-    private void DisplayButtons(Vector3Int tile, TileStatus status)
+    private void DisplayButtons(GameTile tile)
     {
         //Horrible code
         DisableAllButtons();
-        if (status == TileStatus.Buildable)
+        if (tile.TileStatus == TileStatus.Buildable)
         {
             _buildTower.gameObject.SetActive(true);
             _buildTower.onClick.AddListener(() => OnBuildTower?.Invoke(tile));
             Debug.Log("Build Tower Clicked" + tile);
         }
-        if (status == TileStatus.TowerBase)
+        if (tile.TileStatus == TileStatus.TowerBase)
         {
             _buildTurret.gameObject.SetActive(true);
             _buildTurret.onClick.AddListener(() => OnBuildTurret?.Invoke(tile));
             Debug.Log("Build Turret Clicked" + tile);
         }
-        if (status == TileStatus.Clearable)
+        if (tile.TileStatus == TileStatus.Clearable)
         {
             _clearTile.gameObject.SetActive(true);
             _clearTile.onClick.AddListener(() => OnClearFoliage?.Invoke(tile));

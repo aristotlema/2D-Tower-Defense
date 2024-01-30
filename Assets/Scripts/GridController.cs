@@ -20,9 +20,7 @@ public enum TileStatus
 
 public class GridController : MonoBehaviour
 {
-    [SerializeField] private UnityEvent openBuildMenu;
-
-    public static event Action<CustomTile> OnTileSelect;
+    public static event Action<GameTile> OnTileSelect;
 
     private Grid grid;
 
@@ -41,14 +39,14 @@ public class GridController : MonoBehaviour
 
     private BuildingController buildingController;
 
-    private void OnEnable()
-    {
-        UI_BuildMenuViewModel.OnBuildTower += BuildTowerOnTile;
-    }
-    private void OnDisable()
-    {
-        UI_BuildMenuViewModel.OnBuildTower -= BuildTowerOnTile;
-    }
+    //private void OnEnable()
+    //{
+    //    UI_BuildMenuViewModel.OnBuildTower += BuildTowerOnTile;
+    //}
+    //private void OnDisable()
+    //{
+    //    UI_BuildMenuViewModel.OnBuildTower -= BuildTowerOnTile;
+    //}
 
 
     void Start()
@@ -95,11 +93,11 @@ public class GridController : MonoBehaviour
         {
             currentSelectedTile = GetMousePosition();   
 
-            OnTileSelect?.Invoke(new CustomTile(currentSelectedTile, CheckTileStatus(currentSelectedTile)));
+            OnTileSelect?.Invoke(new GameTile(currentSelectedTile, GetTileStatus(currentSelectedTile)));
         }
     }
 
-    private TileStatus CheckTileStatus(Vector3Int tile)
+    public TileStatus GetTileStatus(Vector3Int tile)
     {
         //Add for if tower fully built/ upgradeable
         if (TowerBasesMap.HasTile(tile))
@@ -115,8 +113,8 @@ public class GridController : MonoBehaviour
             return TileStatus.NotBuildable;
     }
 
-    private void BuildTowerOnTile(Vector3Int tile)
+    public void PlaceTowerTileBaseOnGrid(GameTile tile, Tile tileBase)
     {
-        TowerBasesMap.SetTile(tile, buildingController.BuildTowerBase());
+        TowerBasesMap.SetTile(tile.Coordiantes, tileBase);
     }
 }

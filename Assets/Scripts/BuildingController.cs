@@ -18,14 +18,13 @@ public class BuildingController : MonoBehaviour
         UI_BuildMenuViewModel.OnBuildTurret -= BuildTurret;
     }
 
-
-    public void BuildTurret(Vector3Int spawnCoordiantes)
+    public void BuildTurret(GameTile tile)
     {
-        Instantiate(towerPrefab, new Vector3(spawnCoordiantes.x + 0.5f, spawnCoordiantes.y + 0.5f), Quaternion.identity);
+        Instantiate(towerPrefab, new Vector3(tile.Coordiantes.x + 0.5f, tile.Coordiantes.y + 0.5f), Quaternion.identity);
     }
 
     //Need to update with tile rule
-    public Tile BuildTowerBase()
+    public Tile GetTowerBaseTile()
     {
         return towerBaseTile;
     }

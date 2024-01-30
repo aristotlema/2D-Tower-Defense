@@ -3562,10 +3562,10 @@ RectTransform:
   m_Father: {fileID: 22612599}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 960.00006, y: -1003.0157}
+  m_SizeDelta: {x: 1920.0001, y: 154.3101}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &269237206
 GameObject:
@@ -4378,10 +4378,10 @@ RectTransform:
   m_Father: {fileID: 22612599}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 960.00006, y: -540.0854}
+  m_SizeDelta: {x: 1920.0001, y: 771.55054}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &568475090
 MonoBehaviour:
@@ -5004,6 +5004,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _UI_buildMenu: {fileID: 1801841351}
+  _buildTurret: {fileID: 2015813320}
+  _buildTower: {fileID: 640191568}
+  _clearTile: {fileID: 1666590831}
 --- !u!4 &983005601 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8424282762623628222, guid: 4cc0f823315caff4da58b393ac328b84, type: 3}
@@ -5703,10 +5706,10 @@ RectTransform:
   m_Father: {fileID: 22612599}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 960.00006, y: -77.15505}
+  m_SizeDelta: {x: 1920.0001, y: 154.3101}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1620895668
 GameObject:
